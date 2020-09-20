@@ -32,9 +32,15 @@
 	  <div class="nav-wrapper container">
 	    <a href="#" class="brand-logo">AnonCT<span id="version" style="font-size:10px">v0.24.1</span></a>
 	    <ul class="right hide-on-med-and-down">
-	      <li><a class="dropdown-trigger" href="#" data-target="notificaciones">notificaciones<i class="material-icons right">notifications</i></a></li>
-	      <li><a class="modal-trigger" href="#crear_publicacion">Nuevo<i class="material-icons right">create</i></a></li>
-	      <li><a class="dropdown-trigger" href="#" data-target="categorias">Categorías<i class="material-icons right">arrow_drop_down</i></a></li>
+	      <li>
+	      	<a class="dropdown-trigger" href="#" data-target="notificaciones">notificaciones<i class="material-icons right">notifications</i></a>
+	      </li>
+	      <li id="crear_publicacion">
+	      	<a class="modal-trigger" href="#crear_publicacion_modal">Nuevo<i class="material-icons right">create</i></a>
+	      </li>
+	      <li>
+	      	<a class="dropdown-trigger" href="#" data-target="categorias">Categorías<i class="material-icons right">arrow_drop_down</i></a>
+	      </li>
 	    </ul>
 	  </div>
 	</nav>
@@ -75,34 +81,43 @@
 			<div id="separador"></div>
 		</section>
 	</div>
-	<!--modal-->
-	<!-- Modal Structure -->
-  <div id="crear_publicacion" class="modal grey darken-3">
+	<!--publicacion-->
+  <div id="crear_publicacion_modal" class="modal grey darken-3">
     <div class="modal-content">
-      <div id="publicacion_modal_imagen" class="center-align">
-      	<input type="file" id="modal_cambiar_imagen" style="position: absolute;visibility: hidden;">
+      <div v-if="cargando_imagen == false" id="publicacion_modal_imagen" class="center-align">
+      	<input @change="cambiar_imagen" type="file" id="modal_cambiar_imagen" style="position: absolute;visibility: hidden;">
       	<label for="modal_cambiar_imagen">
-      		<img src="prueba_modal.jpg" alt="subir imagen" id="modal_imagen_subida">
+      		<img :src="imagen" alt="subir imagen" id="modal_imagen_subida">
       	</label>
       </div>
+      <h3 v-if="cargando_imagen == true" class="center-align white-text">CARGANDO...</h3>
       <p class="col s12 center-align white-text">subir imagen</p>
       <div class="input-field col s12">
-        <input id="modal_titulo" type="text" class="validate white-text">
+        <input v-model="titulo" id="modal_titulo" type="text" class="validate white-text">
         <label for="modal_titulo">Título</label>
       </div>
       <div class="input-field col s12">
-       <textarea id="textarea1" class="materialize-textarea validate white-text"></textarea>
+       <textarea v-model="contenido" id="textarea1" class="materialize-textarea validate white-text"></textarea>
        <label for="textarea1">Contenido</label>
       </div>
     </div>
     <div class="modal-footer grey darken-3">
-      <a href="#!" class="modal-close waves-effect white waves-green btn-flat">Cancelar</a>
-      <a href="#!" class="modal-close waves-effect white waves-green btn-flat">Crear</a>
+      <a v-if="cargando_publicacion == false" href="#!" class="modal-close waves-effect white waves-green btn-flat">Cancelar</a>
+      <a v-if="cargando_publicacion == false" href="#!" @click="subir_publicacion_ahora" class="waves-effect white waves-green btn-flat">Crear</a>
+      <a v-if="cargando_publicacion == true" href="#!" class="waves-effect white waves-green btn-flat">Cargando...</a>
     </div>
   </div>
 	<!--scripts-->
+	<!--materialize-->
 	<script src="materialize/funcionalidad_js.js"></script>
 	<script src="materialize/menu.js"></script>
 	<script src="materialize/modal.js"></script>
+	<!--vue-->
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"></script>
+	<script src="vue/crear_pub.js"></script>
+	<script src="vue/alertas.js"></script>
+	<!--sweetAlert2-->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </body>
 </html>
