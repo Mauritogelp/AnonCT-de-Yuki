@@ -48,6 +48,7 @@
 	}
 	$image = $_FILES['imagen'];
 	$imagen = new cargar_imagen($image);
+	$imagen->verificar_estado_usuario();
 	$imagen->verificar_peso();
 	$imagen->verificar_nombre();
 	$imagen->verificar_formato();

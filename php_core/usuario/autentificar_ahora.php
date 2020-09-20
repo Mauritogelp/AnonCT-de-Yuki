@@ -1,6 +1,5 @@
 <?php
 	require '../herramientas.php';
-	session_start();
 	class autentificar_ahora extends herramientas{
 		private $ip;
 		public function verificar_existe_usuario(){

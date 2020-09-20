@@ -6,6 +6,7 @@ var usuario = new Vue({
 	},
 	created:function(){
 		this.$http.get("php_core/usuario/verificar_usuario.php").then(function(respuesta){
+			console.log(respuesta);
 			this.bloqueado = respuesta.body.bloqueo;
 			this.autentificado = respuesta.body.autentificado;
 		})

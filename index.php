@@ -105,6 +105,7 @@
       </div>
       <h3 v-if="cargando_imagen == true" class="center-align white-text">CARGANDO...</h3>
       <p class="col s12 center-align white-text">subir imagen</p>
+      
       <div class="input-field col s12">
         <input v-model="titulo" id="modal_titulo" type="text" class="validate white-text">
         <label for="modal_titulo">Título</label>

@@ -1,6 +1,5 @@
 <?php
 	require '../herramientas.php';
-	session_start();
 	class verificar_usuario{
 		private $bloquear;
 		public function verificar_usuario_bloqueado(){

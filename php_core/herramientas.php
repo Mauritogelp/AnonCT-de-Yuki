@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	class herramientas{
 		private $host	  = "localhost";
 		private $user 	  = "root";
@@ -22,13 +23,24 @@
 			echo json_encode($corr);
 			die();
 		}
-		public function verificar_ip_segura(){
-			$ip = $_SERVER['REMOTE_ADDR'];
-			if (strlen($ip) < 60 && strlen($ip) > 0) {
+		public function verificar_estado_usuario(){
+			if (isset($_SESSION['ip'])) {
 				//pasó sin problemas
 			}else{
-				$mensaje = "IP Spoofing detectado, desactiva el programa o reinicia tu router";
-				$this->error_json($mensaje);
+				if (isset($_SESSION['bloqueado'])) {
+					$this->error_json('EStás baneado, no podés realizar esta acción');
+				}
+				$this->conectar_bd();
+				$query = "SELECT habilitado FROM usuarios WHERE usuario LIKE '$_SERVER[REMOTE_ADDR]'";
+				$ip_bd = $this->conexion->query($query);
+				$this->desconectar_bd();
+				$ip_json = $ip_bd->fetch_assoc();
+				if ($ip_json == null) {
+					$mensaje = "Tenés que verificarte antes de hacer ésto!";
+					$this->error_json($mensaje);
+				}else{
+					//pasó sin problemas
+				}
 			}
 		}
 	}

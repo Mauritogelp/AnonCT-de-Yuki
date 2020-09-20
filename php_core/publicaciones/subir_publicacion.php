@@ -10,6 +10,14 @@
 			$this->contenido = $con;
 		}
 		public function verificar_imagen(){
+			#verifico que se haya insertado una imágen
+			if ($this->imagen != 'prueba_modal.jpg') {
+				//pasó sin problemas
+			}else{
+				$mensaje = "La imágen es obligatória";
+				$this->error_json($mensaje);				
+			}
+			#verifico si la imágen exíste
 			if (file_exists($_SERVER['DOCUMENT_ROOT']."/anonct_rework/".$this->imagen)) {
 				//pasó sin problemas
 			}else{
@@ -33,14 +41,16 @@
 				$this->error_json($mensaje);
 			}			
 		}
-		#TENGO Q VERIFICAR Y TENER LA IP DEL USUARIO
 		public function crear_publicacion_ahora(){
 			$this->conectar_bd();
-			$ip = password_hash($_SERVER['REMOTE_ADDR'], PASSWORD_BCRYPT, ['cost' => 11]);
 			//escapo de caracteres especiales
 			$ip = $this->conexion->real_escape_string($ip);
 			//
+			$query = "SELECT usuario FROM usuarios WHERE usuario LIKE '$ip'";
+			$ip_bd = $this->conexion->query($query);
+			$ip_json = $ip_bd->fetch_assoc();
 			$query = "INSERT INTO publicaciones ";
+			$
 			$this->desconectar_bd();
 		}
 	}
@@ -48,6 +58,8 @@
 	$titulo = $_POST['titulo'];
 	$contenido = $_POST['contenido'];
 	$publicacion = new crear_publicacion($imagen,$titulo,$contenido);
+	$publicacion->verificar_estado_usuario();
+	$publicacion->verificar_existe_categoria();
 	$publicacion->verificar_imagen();
 	$publicacion->verificar_titulo();
 	$publicacion->verificar_contenido();
