@@ -2,10 +2,12 @@
 	require '../herramientas.php';
 	class crear_publicacion extends herramientas{
 		private $imagen;
+		private $categoria;
 		private $titulo;
 		private $contenido;
-		public function __construct($ima,$tit,$con){
+		public function __construct($ima,$cat,$tit,$con){
 			$this->imagen = $ima;
+			$this->categoria = $cat;
 			$this->titulo = $tit;
 			$this->contenido = $con;
 		}
@@ -22,6 +24,22 @@
 				//pasó sin problemas
 			}else{
 				$mensaje = "La imagen no exíste, reintente";
+				$this->error_json($mensaje);
+			}
+		}
+		public function verificar_categoria(){
+			$this->conectar_bd();
+			//escapo caracter especial
+			$this->categoria = $this->conexion->real_escape_string($this->categoria);
+			//
+			$query = "SELECT COUNT(*) AS cantidad FROM categorias WHERE id = '$this->categoria' LIMIT 1";
+			$cantidad_bd = $this->conexion->query($query);
+			$this->desconectar_bd();
+			$cantidad_json = $cantidad_bd->fetch_assoc();
+			if (intval($cantidad_json['cantidad']) != 0) {
+				//pasó sin problemas
+			}else{
+				$mensaje = "La categoría no exíste, reinicie la página";
 				$this->error_json($mensaje);
 			}
 		}
@@ -44,22 +62,27 @@
 		public function crear_publicacion_ahora(){
 			$this->conectar_bd();
 			//escapo de caracteres especiales
-			$ip = $this->conexion->real_escape_string($ip);
+			$ip = $this->conexion->real_escape_string($_SERVER['REMOTE_ADDR']);
+			$this->categoria = $this->conexion->real_escape_string($this->categoria);
+			$this->titulo = $this->conexion->real_escape_string($this->titulo);
+			$this->contenido = $this->conexion->real_escape_string($this->contenido);
 			//
-			$query = "SELECT usuario FROM usuarios WHERE usuario LIKE '$ip'";
-			$ip_bd = $this->conexion->query($query);
-			$ip_json = $ip_bd->fetch_assoc();
-			$query = "INSERT INTO publicaciones ";
-			$
+			$query = "SELECT id FROM usuarios WHERE usuario LIKE '$ip' LIMIT 1";
+			$id_bd = $this->conexion->query($query);
+			$id_json = $id_bd->fetch_assoc();
+			$query = "INSERT INTO publicaciones(id_usuario,id_categoria,imagen,titulo,contenido,habilitado) 
+			VALUES ('".$id_json['id']."','$this->categoria','$this->imagen','$this->titulo','$this->contenido',0)";
+			$this->conexion->query($query);
 			$this->desconectar_bd();
 		}
 	}
 	$imagen = $_POST['imagen'];
+	$categoria = $_POST['categoria'];
 	$titulo = $_POST['titulo'];
 	$contenido = $_POST['contenido'];
-	$publicacion = new crear_publicacion($imagen,$titulo,$contenido);
+	$publicacion = new crear_publicacion($imagen,$categoria,$titulo,$contenido);
 	$publicacion->verificar_estado_usuario();
-	$publicacion->verificar_existe_categoria();
+	$publicacion->verificar_categoria();
 	$publicacion->verificar_imagen();
 	$publicacion->verificar_titulo();
 	$publicacion->verificar_contenido();

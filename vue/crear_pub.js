@@ -3,7 +3,7 @@ var crear_pub = new Vue({
 	data:{
 		cargando_imagen:false,
 		cargando_publicacion:false,
-		categoria:0,
+		categorias:0,
 		imagen:"prueba_modal.jpg",
 		titulo:"",
 		contenido:"",
@@ -36,21 +36,26 @@ var crear_pub = new Vue({
 				if (this.imagen != "prueba_modal.jpg") {
 					if (this.titulo.length != 0) {
 						if (this.contenido.length != 0) {
-							this.cargando_publicacion = true;
-							let formData = new FormData();
-							formData.append('imagen',this.imagen);
-							formData.append('titulo',this.titulo);
-							formData.append('contenido',this.contenido);
-							this.$http.post("php_core/publicaciones/subir_publicacion.php",formData).then(function(respuesta){
-							console.log(respuesta);
-							if (typeof(respuesta.body.correcto) != 'undefined') {
-								//cargar citio
-								//location(respuesta.body.url)
-							}else if(typeof(respuesta.body.error) != 'undefined'){
-								alerta.error(respuesta.body.error);
-								this.cargando_publicacion = false;
+							if (this.categorias != 0) {
+								this.cargando_publicacion = true;
+								let formData = new FormData();
+								formData.append('imagen',this.imagen);
+								formData.append('categoria',this.categorias);
+								formData.append('titulo',this.titulo);
+								formData.append('contenido',this.contenido);
+								this.$http.post("php_core/publicaciones/subir_publicacion.php",formData).then(function(respuesta){
+								console.log(respuesta);
+								if (typeof(respuesta.body.correcto) != 'undefined') {
+									//cargar citio
+									//location(respuesta.body.url)
+								}else if(typeof(respuesta.body.error) != 'undefined'){
+									alerta.error(respuesta.body.error);
+									this.cargando_publicacion = false;
+								}
+								})
+							}else{
+								alerta.error("La categoría es obligatoria")
 							}
-							})
 						}else{
 							alerta.error("El contenido es obligatorio");
 						}

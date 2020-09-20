@@ -1,3 +1,4 @@
+<?php require 'php_core/categorias/traer_categorias.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,11 +16,9 @@
 <body class="grey darken-3">
 	<!--categorías-->
 	<ul id="categorias" class="dropdown-content">
-	  <li><a class="truncate" href="#!">jeje ta mal</a></li>
-	  <li><a class="truncate" href="#!">jeje ta bom</a></li>
-	  <li class="divider"></li>
-	  <li><a class="truncate" href="#!">jeje nose</a></li>
-	  <li><a class="truncate" href="#!">jeje aca el limtie</a></li>
+    <?php while ($categoria = $categorias_bd->fetch_array()): ?>
+	  <li><a class="truncate" <?php echo "href='?categoria=".$categoria['id']."'"; ?>><?php echo $categoria['categoria']; ?></a></li>
+		<?php endwhile; ?>
 	</ul>
 	<!--notificaciones-->
 	<ul id="notificaciones" class="dropdown-content">
@@ -105,7 +104,11 @@
       </div>
       <h3 v-if="cargando_imagen == true" class="center-align white-text">CARGANDO...</h3>
       <p class="col s12 center-align white-text">subir imagen</p>
-      
+      <select v-model="categorias">
+      	<?php while ($categoria = $categorias_bd2->fetch_array()): ?>
+      	<option value="<?php echo $categoria['id'] ?>"><? echo $categoria['categoria']; ?></option>
+      	<?php endwhile; ?>
+      </select>
       <div class="input-field col s12">
         <input v-model="titulo" id="modal_titulo" type="text" class="validate white-text">
         <label for="modal_titulo">Título</label>
