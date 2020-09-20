@@ -1,0 +1,57 @@
+
+#version:{
+	font-size:10px !important;
+}
+#contenedor{
+	width:100%;
+	height:100%;
+}
+#publicacion{
+	margin:10px;
+    padding: 10px 10px 0px 10px;
+	transition:0.3s ease-in-out;
+	position:relative;
+}
+#separador {
+	width: 70%;
+	height: 1px;
+	margin: 0px auto;
+	border-bottom: 1px solid white;
+}
+#publicacion:hover{
+	transition:background-color 0.3s ease-in-out;
+	background-color:#616161 !important;
+}
+#publicacion > #separador{
+	transition:width 0.3s ease-in-out;
+	width:70%;
+}
+#publicacion:hover > #separador{
+	transition:width 0.3s ease-in-out;
+	width:100%;
+}
+#contenedor_publicacion_imagen{
+	height:100%;
+	width:100%;
+	overflow: hidden;
+	text-align: right
+}
+#publicacion_imagen{
+	height:250px;
+}
+#publicacion_fecha{
+	font-size:10px;
+}
+#publicacion_comentarios{
+	font-size:10px;
+}
+#publicacion_modal_imagen{
+	height:350px;
+	overflow: hidden
+}
+.modal{
+	width:35%;
+}
+#modal_imagen_subida{
+	height:350px;
+}
