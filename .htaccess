@@ -1,3 +1,6 @@
+#bloqueo las carpetas sin index
+Options All -Indexes
+
 #elimina extension php
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
