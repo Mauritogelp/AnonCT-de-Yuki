@@ -32,6 +32,19 @@
 	  <div class="nav-wrapper container">
 	    <a href="#" class="brand-logo">AnonCT<span id="version" style="font-size:10px">v0.24.1</span></a>
 	    <ul class="right hide-on-med-and-down">
+	      <li id="estado_usuario">
+	      	<div v-if="bloqueado == false">
+		      	<a v-if="autentificado == false" @click="autentificar_ahora" class="waves-effect btn green" title="No estás autentificado!!" href="#">
+		      		<i class="material-icons">lock_outline</i>
+		      	</a>
+		      	<a v-if="autentificado == true" @click="usuario_autentificado" class="waves-effect btn green" href="#">
+		      		<i class="material-icons">verified_user</i>
+		      	</a>
+	      	</div>
+	      	<a v-if="bloqueado == true" @click="usuario_bloqueado" class="waves-effect btn red" href="#">
+	      		<i class="material-icons">lock_outline</i>
+	      	</a>
+	      </li>
 	      <li>
 	      	<a class="dropdown-trigger" href="#" data-target="notificaciones">notificaciones<i class="material-icons right">notifications</i></a>
 	      </li>
@@ -117,6 +130,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"></script>
 	<script src="vue/crear_pub.js"></script>
 	<script src="vue/alertas.js"></script>
+	<script src="vue/usuario.js"></script>
 	<!--sweetAlert2-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </body>

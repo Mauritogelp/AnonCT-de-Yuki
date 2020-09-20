@@ -22,5 +22,14 @@
 			echo json_encode($corr);
 			die();
 		}
+		public function verificar_ip_segura(){
+			$ip = $_SERVER['REMOTE_ADDR'];
+			if (strlen($ip) < 60 && strlen($ip) > 0) {
+				//pasó sin problemas
+			}else{
+				$mensaje = "IP Spoofing detectado, desactiva el programa o reinicia tu router";
+				$this->error_json($mensaje);
+			}
+		}
 	}
 ?>
